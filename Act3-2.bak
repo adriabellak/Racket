@@ -27,8 +27,7 @@ Adriana Abella Kuri A01329591
     ([lst (string->list input-string)]
      [state (cadr dfa)]     ; The second element in the list
      [token-list empty]
-     [transition (car dfa)] ; The first element in the list
-     [element empty]) :
+     [transition (car dfa)]) ; The first element in the list
     (if (empty? lst)
         ; Check if the final state is in the list of acceptables
         (if (member state (caddr dfa))
@@ -45,7 +44,7 @@ Adriana Abella Kuri A01329591
             state
             ; Add valid tokens to the list
             (if token-type
-              (append token-list (list token-type) (list element))
+              (append token-list (list token-type))
               token-list)
             ; Pass the same function again
             transition)))))
