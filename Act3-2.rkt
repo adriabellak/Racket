@@ -7,6 +7,8 @@ Gilberto Echeverria
 Ricardo Alonso Aróstegui A01029011
 Agustín Pumarejo Ontañón A01028997
 Adriana Abella Kuri A01329591
+
+(validate-string "4.2+1" (list accept-simple-arithmetic 'q0 (list 'int 'float 'space)))
 |#
 
 #lang racket
@@ -26,16 +28,17 @@ Adriana Abella Kuri A01329591
   (let loop
     ([lst (string->list input-string)]
      [state (cadr dfa)]     ; The second element in the list
+     [element ""]
      [token-list empty]
      [transition (car dfa)] ; The first element in the list
-     [element empty]) :
+     ) 
     (if (empty? lst)
         ; Check if the final state is in the list of acceptables
         (if (member state (caddr dfa))
             ; Return the list of tokens and the last accept state
             (if (eq? state 'space)
                 token-list
-                (append token-list (list state)))
+                (append token-list (list state element)))
             #f)
         (let-values
           ([(state token-type) (transition state (car lst))])
@@ -43,6 +46,10 @@ Adriana Abella Kuri A01329591
           (loop
             (cdr lst)
             state
+            (cond
+              [(not(eq? (car lst) #\space)) (string-append element (string (car lst)))]
+              [(and (eq? token-type #f) (not(eq? (car lst) #\space))) (string-append "" (string (car lst)))]
+              [else ""])
             ; Add valid tokens to the list
             (if token-type
               (append token-list (list token-type) (list element))
