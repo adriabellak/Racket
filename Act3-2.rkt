@@ -47,8 +47,8 @@ Adriana Abella Kuri A01329591
             (cdr lst)
             state
             (cond
-              [(not(eq? (car lst) #\space)) (string-append element (string (car lst)))]
-              [(and (eq? token-type #f) (not(eq? (car lst) #\space))) (string-append "" (string (car lst)))]
+              [(and (eq? token-type #f) (not(eq? (car lst) #\space))) (string-append element (string (car lst)))]
+              [(not(eq? (car lst) #\space)) (string-append "" (string (car lst)))]
               [else ""])
             ; Add valid tokens to the list
             (if token-type
@@ -85,10 +85,15 @@ Adriana Abella Kuri A01329591
                          [(char-numeric? symbol) (values 'int 'op)]
                          [(member symbol ops) (values 'invalid #f)]
                          [(eq? symbol #\.) (values 'invalid #f)]
-                         [(eq? symbol #\space) (values 'op #f)])]
+                         [(eq? symbol #\space) (values 'spaceOp 'op)])]
       [(eq? state 'space) (cond
                          [(char-numeric? symbol) (values 'invalid #f)]
                          [(member symbol ops) (values 'op #f)]
                          [(eq? symbol #\.) (values 'invalid #f)]
                          [(eq? symbol #\space) (values 'space #f)])]
+      [(eq? state 'spaceOp) (cond
+                         [(char-numeric? symbol) (values 'int #f)]
+                         [(member symbol ops) (values 'invalid #f)]
+                         [(eq? symbol #\.) (values 'invalid #f)]
+                         [(eq? symbol #\space) (values 'spaceOp #f)])]
       [(eq? state 'invalid) (values 'invalid #f)])))
