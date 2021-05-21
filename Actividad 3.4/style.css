@@ -1,0 +1,23 @@
+p {
+    white-space: pre-wrap;
+}
+
+span.element{
+    color: purple;
+}
+
+span.class{
+    color: blue;
+}
+
+span.id{
+    color: cyan;
+}
+
+span.property{
+    color: red;
+}
+
+span.value{
+    color: orange;
+}
