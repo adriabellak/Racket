@@ -10,6 +10,6 @@ punto y coma ";" separa cada atributo del resto y los dos puntos ":" separan la 
 buscando estos elementos nos permitió saber que tipo de dato deberíamos esperar en cada sección. Antes de una llave abierta va un selector, despues va una propiedad,
 despues dos puntos, luego un valor, un punto y coma y despues podrá haber una llave cerrada u otra propiedad.
 
-El tiempo de ejecución
-
 ### Calcula la complejidad de tu algoritmo basada en el número de iteraciones y contrástala con el tiempo obtenido en el punto 7.
+
+La complejidad de nuestro código es de O(n), ya que va analizando el documento palabra por palabra de manera secuencial. 
