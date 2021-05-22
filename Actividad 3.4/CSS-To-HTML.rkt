@@ -105,7 +105,7 @@ Adriana Abella Kuri A01329591
 (define (document-tokens-to-html in-file-path out-file-path)
   (let loop
     ([lst (validate-document (file->lines in-file-path) (list css-tokens-validation 'selector (list 'selector 'property 'value 'b)))]
-    [result '("<html><head><link type='text/css' rel='stylesheet' href='../Actividad 3.4/style.css'></head><body>")])
+    [result '("<html><head><link type='text/css' rel='stylesheet' href='./style.css'></head><body>")])
     (if (empty? lst)
       (append result (list "</body></html>"))
       (loop
