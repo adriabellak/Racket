@@ -1,0 +1,6 @@
+#lang racket
+
+(define (main-file-manager in-file-path out-file-path) ; This function makes both previous function work properly.
+    (define data (read-file in-file-path))
+    (define result (sort data <))
+    (write-file out-file-path result))

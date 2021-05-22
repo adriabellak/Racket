@@ -8,7 +8,8 @@ Ricardo Alonso Aróstegui A01029011
 Agustín Pumarejo Ontañón A01028997
 Adriana Abella Kuri A01329591
 
-(validate-string "4.2+1" (list accept-simple-arithmetic 'q0 (list 'int 'float 'space)))
+(validate-string "4.2+1" (list accept-simple-arithmetic 'q0 (list 'int 'float 'space 'var)))
+(validate-string "4.2 +1  - a_2" (list accept-simple-arithmetic 'q0 (list 'int 'float 'space 'var)))
 |#
 
 #lang racket
@@ -63,37 +64,58 @@ Adriana Abella Kuri A01329591
     (cond
       [(eq? state 'q0) (cond
                          [(char-numeric? symbol) (values 'int #f)]
+                         [(char-alphabetic? symbol) (values 'var #f)]
+                         [(eq? symbol #\_) (values 'invalid #f)]
                          [(member symbol ops) (values 'invalid #f)]
                          [(eq? symbol #\.) (values 'invalid #f)]
                          [(eq? symbol #\space) (values 'q0 #f)])]
       [(eq? state 'int) (cond
                          [(char-numeric? symbol) (values 'int #f)]
+                         [(char-alphabetic? symbol) (values 'invalid #f)]
+                         [(eq? symbol #\_) (values 'invalid #f)]
                          [(member symbol ops) (values 'op 'int)]
                          [(eq? symbol #\.) (values 'dot #f)]
                          [(eq? symbol #\space) (values 'space 'int)])]
       [(eq? state 'dot) (cond
                          [(char-numeric? symbol) (values 'float #f)]
+                         [(char-alphabetic? symbol) (values 'invalid #f)]
+                         [(eq? symbol #\_) (values 'invalid #f)]
                          [(member symbol ops) (values 'invalid #f)]
                          [(eq? symbol #\.) (values 'invalid #f)]
                          [(eq? symbol #\space) (values 'invalid #f)])]
       [(eq? state 'float) (cond
                          [(char-numeric? symbol) (values 'float #f)]
+                         [(char-alphabetic? symbol) (values 'invalid #f)]
+                         [(eq? symbol #\_) (values 'invalid #f)]
                          [(member symbol ops) (values 'op 'float)]
                          [(eq? symbol #\.) (values 'invalid #f)]
                          [(eq? symbol #\space) (values 'space 'float)])]
       [(eq? state 'op) (cond
                          [(char-numeric? symbol) (values 'int 'op)]
+                         [(char-alphabetic? symbol) (values 'var 'op)]
+                         [(eq? symbol #\_) (values 'invalid #f)]
                          [(member symbol ops) (values 'invalid #f)]
                          [(eq? symbol #\.) (values 'invalid #f)]
                          [(eq? symbol #\space) (values 'spaceOp 'op)])]
       [(eq? state 'space) (cond
                          [(char-numeric? symbol) (values 'invalid #f)]
+                         [(char-alphabetic? symbol) (values 'invalid #f)]
+                         [(eq? symbol #\_) (values 'invalid #f)]
                          [(member symbol ops) (values 'op #f)]
                          [(eq? symbol #\.) (values 'invalid #f)]
                          [(eq? symbol #\space) (values 'space #f)])]
       [(eq? state 'spaceOp) (cond
                          [(char-numeric? symbol) (values 'int #f)]
+                         [(char-alphabetic? symbol) (values 'var #f)]
+                         [(eq? symbol #\_) (values 'invalid #f)]
                          [(member symbol ops) (values 'invalid #f)]
                          [(eq? symbol #\.) (values 'invalid #f)]
                          [(eq? symbol #\space) (values 'spaceOp #f)])]
+      [(eq? state 'var) (cond
+                         [(char-numeric? symbol) (values 'var #f)]
+                         [(char-alphabetic? symbol) (values 'var #f)]
+                         [(eq? symbol #\_) (values 'var #f)]
+                         [(member symbol ops) (values 'op 'var)]
+                         [(eq? symbol #\.) (values 'invalid #f)]
+                         [(eq? symbol #\space) (values 'space 'var)])]
       [(eq? state 'invalid) (values 'invalid #f)])))

@@ -1,15 +1,9 @@
 #|
-Implement a Deterministic Finite Automata
-
-Gilberto Echeverria
 10/03/2021
 
 Ricardo Alonso Aróstegui A01029011
 Agustín Pumarejo Ontañón A01028997
 Adriana Abella Kuri A01329591
-
-(validate-string "4.2+1" (list accept-simple-arithmetic 'q0 (list 'int 'float 'space 'var)))
-(validate-string "4.2 +1  - a_2" (list accept-simple-arithmetic 'q0 (list 'int 'float 'space 'var)))
 |#
 
 #lang racket
@@ -119,3 +113,12 @@ Adriana Abella Kuri A01329591
                          [(eq? symbol #\.) (values 'invalid #f)]
                          [(eq? symbol #\space) (values 'space 'var)])]
       [(eq? state 'invalid) (values 'invalid #f)])))
+
+; read from a file
+(define (main in-file-path out-file-path)
+        (display-lines-to-file out-file-path
+            (map validate-string (file->lines in-file-path) (list accept-simple-arithmetic 'q0 (list 'int 'float 'space 'var)))
+            out-file-path
+            #:exists 'truncate))
+
+;(validate-string "4.2+1" (list accept-simple-arithmetic 'q0 (list 'int 'float 'space 'var)))
