@@ -1,12 +1,9 @@
 #|
-04/06/2021
+10/03/2021
 Ricardo Alonso Aróstegui A01029011
 Agustín Pumarejo Ontañón A01028997
 Adriana Abella Kuri A01329591
 |#
-
-; (time (directory-CSS-To-HTML 4))
-; (time (directory-CSS-To-HTML 1))
 
 #lang racket
 
@@ -139,7 +136,7 @@ Adriana Abella Kuri A01329591
 (define (file-to-html in-file-path)
   (display-lines-to-file
     (document-tokens-to-html in-file-path)
-    (string-append (car (regexp-match #px"[\\w+\\s*\\(\\)\\-]*" in-file-path)) ".html")
+    (string-append (car (regexp-match #px"[\\w+\\s*]*" in-file-path)) ".html")
     #:exists 'truncate))
 
 
